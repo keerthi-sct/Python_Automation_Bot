@@ -3,10 +3,9 @@ from datetime import datetime
 
 
 def get_quote():
-    url = "https://api.adviceslip.com/advice"
-
     try:
-        response = requests.get(url)
+        url = "https://api.adviceslip.com/advice"
+        response = requests.get(url, timeout=10)
 
         if response.status_code == 200:
             data = response.json()
@@ -15,11 +14,31 @@ def get_quote():
         else:
             return "No advice available"
 
-    except:
-        return "No advice available"
+    except Exception:
+        return "Unable to fetch advice today"
 
 
-def build_summary(advice):
+def get_weather():
+
+    try:
+        url = "https://wttr.in/?format=3"
+
+        response = requests.get(url, timeout=10)
+
+        if response.status_code == 200:
+            return response.text
+
+        else:
+            return "Weather unavailable"
+
+    except Exception:
+        return "Unable to fetch weather"
+        
+
+    
+
+
+def build_summary(quote, weather):
 
     today = datetime.now().strftime("%d-%m-%Y")
 
@@ -29,8 +48,11 @@ DAILY AUTOMATION SUMMARY
 Date:
 {today}
 
+Weather:
+{weather}
+
 Today's Advice:
-{advice}
+{quote}
 
 Bot Status:
 Completed Successfully
@@ -39,26 +61,23 @@ Completed Successfully
     return summary
 
 
-def save_summary(summary):
-
-    with open("daily_summary.txt", "w") as file:
-        file.write(summary)
-
-
 def run():
 
     print("Automation Bot Started!")
 
-    advice = get_quote()
+    quote = get_quote()
 
-    summary = build_summary(advice)
+    weather = get_weather()
 
-    save_summary(summary)
+    summary = build_summary(quote, weather)
+
+
+    with open("daily_summary.txt", "w", encoding="utf-8") as file:
+        file.write(summary)  
 
     print(summary)
 
     print("Summary file created successfully!")
 
 
-if __name__ == "__main__":
-    run()
+run()

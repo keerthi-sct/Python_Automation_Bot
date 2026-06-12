@@ -19,3 +19,17 @@ A Python automation bot that collects daily information, generates summaries, an
 3. Generates summary
 4. Saves report automatically
 5. Runs through GitHub Actions
+
+## Case Study
+
+Problem:
+Wanted a way to collect daily information without doing it manually.
+
+Approach:
+Built a Python automation bot using APIs and GitHub Actions.
+
+Craft:
+Added error handling, automated workflow, and generated reports.
+
+Outcome:
+Bot runs automatically and creates a daily summary report.

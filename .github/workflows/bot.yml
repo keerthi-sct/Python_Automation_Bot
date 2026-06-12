@@ -26,4 +26,9 @@ jobs:
 
       - name: Run automation bot
         run: |
-          python bot.py
+          python bot.py   
+      - name: Upload summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+         name: daily-summary
+         path: daily_summary.txt

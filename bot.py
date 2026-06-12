@@ -1,25 +1,29 @@
 import requests
 from datetime import datetime
 
-print("Automation Bot Started!")
 
-# Fetch advice
-url = "https://api.adviceslip.com/advice"
+def get_quote():
+    url = "https://api.adviceslip.com/advice"
 
-response = requests.get(url)
+    try:
+        response = requests.get(url)
 
-if response.status_code == 200:
-    data = response.json()
-    advice = data["slip"]["advice"]
+        if response.status_code == 200:
+            data = response.json()
+            return data["slip"]["advice"]
 
-else:
-    advice = "No advice available"
+        else:
+            return "No advice available"
+
+    except:
+        return "No advice available"
 
 
-today = datetime.now().strftime("%d-%m-%Y")
+def build_summary(advice):
 
+    today = datetime.now().strftime("%d-%m-%Y")
 
-summary = f"""
+    summary = f"""
 DAILY AUTOMATION SUMMARY
 
 Date:
@@ -32,11 +36,29 @@ Bot Status:
 Completed Successfully
 """
 
-
-with open("daily_summary.txt", "w") as file:
-    file.write(summary)
+    return summary
 
 
-print(summary)
+def save_summary(summary):
 
-print("Summary file created successfully!")
+    with open("daily_summary.txt", "w") as file:
+        file.write(summary)
+
+
+def run():
+
+    print("Automation Bot Started!")
+
+    advice = get_quote()
+
+    summary = build_summary(advice)
+
+    save_summary(summary)
+
+    print(summary)
+
+    print("Summary file created successfully!")
+
+
+if __name__ == "__main__":
+    run()

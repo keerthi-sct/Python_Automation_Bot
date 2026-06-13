@@ -17,7 +17,7 @@ for repo in repos:
         "url": repo["html_url"]
     })
 
-with open("projects.json", "w") as file:
+with open("portfolio/projects.json", "w") as file:
     json.dump(projects, file, indent=4)
 
 print("Projects updated successfully!")

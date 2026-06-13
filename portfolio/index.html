@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Projects</title>
+</head>
+
+<body>
+
+<h1>My GitHub Projects</h1>
+
+<div id="projects"></div>
+
+<script>
+
+fetch("projects.json")
+.then(response => response.json())
+.then(data => {
+
+let output = "";
+
+data.forEach(project => {
+
+output += `
+<h2>${project.name}</h2>
+<a href="${project.url}">
+View Project
+</a>
+`;
+
+});
+
+document.getElementById("projects").innerHTML = output;
+
+});
+
+</script>
+
+</body>
+</html>

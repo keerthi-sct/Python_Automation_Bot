@@ -1,0 +1,35 @@
+name: Update Portfolio
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-portfolio:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run portfolio updater
+        run: |
+          python portfolio_updater.py
+
+      - name: Commit updated portfolio
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Auto update portfolio" || echo "No changes"
+          git push
